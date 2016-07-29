@@ -3,8 +3,6 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-
-var request = require('request');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
@@ -28,7 +26,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 
-
+// Part I
 // Facebook Webhook
 app.get('/webhook', function (req, res) {
     if (req.query['hub.verify_token'] === 'conf.VERIFY_TOKEN') {
@@ -39,10 +37,12 @@ app.get('/webhook', function (req, res) {
     }
 });
 
+
+// Part II
 app.post('/webhook/', function (req, res) {
   messaging_events = req.body.entry[0].messaging; //所有訊息
 
-  for (i = 0; i < messaging_events.length; i++) { // 遍歷毎一則
+  for (i = 0; i < messaging_events.length; i++) { 
 
     event = req.body.entry[0].messaging[i]; 
     sender = event.sender.id; // 誰發的訊息
@@ -58,7 +58,6 @@ app.post('/webhook/', function (req, res) {
   }
   res.sendStatus(200);
 });
-
 
 var token = "EAAPAMB8xZBQsBAGyvmBYJ2ZChwWYQUf9eogb1EZCpgkSc3LuEFeJCxEuE76EDZBy7flBZAinwWk9xZC2TCdzaTZAZC4EOxxWYqzy0CWk9z8IQcZBiQdyppqS1fiDkzjvHujNja5VWsdaoYGsJq6l6RXRaW6PDm7axDgbQDCHBbqYCCgZDZD";
 function sendTextMessage(sender, text) {
